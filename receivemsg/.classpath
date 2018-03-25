@@ -32,7 +32,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Administrator/Downloads/json-simple-1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Administrator/Downloads/java-json.jar"/>
+	<classpathentry kind="lib" path="/Satheesh/Studies/Cloud/Project/CloudProject/jars/json-simple-1.1.jar"/>
+	<classpathentry kind="lib" path="/Satheesh/Studies/Cloud/Project/CloudProject/jars/java-json.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
