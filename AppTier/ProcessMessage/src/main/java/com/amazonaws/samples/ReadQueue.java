@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,9 +47,13 @@ public class ReadQueue {
 			File f = new File(TENSOR_PATH);
 			if (f.exists() && !f.isDirectory()) {
 				String command = TENSOR_PATH + " " + input;
+				URL aURL = new URL(input);
+				File inp_file = new File(aURL.getFile());
+				String imageName = inp_file.getName();
+				System.out.println("Image Name: " + imageName);
 				String output = executeScript(command);
 				System.out.println("Final Output:" + output);
-				sendMsg(id, output);
+				sendMsg(id,imageName, output);
 			}
 		}
 	}
@@ -87,9 +92,10 @@ public class ReadQueue {
 		return output.toString();
 	}
 
-	public static void sendMsg(String id, String output) throws JSONException {
+	public static void sendMsg(String id, String input, String output) throws JSONException {
 		JSONObject json = new JSONObject();
 		json.append("id", id);
+		json.append("input", input);
 		json.append("output", output);
 		sqs.sendMessage(new SendMessageRequest(outputQueueUrl, json.toString()));
 	}
