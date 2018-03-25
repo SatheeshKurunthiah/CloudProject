@@ -16,7 +16,7 @@ $queue = SqsClient::factory(array(
     )
 ));
 
-$input_queue = 'https://sqs.us-west-1.amazonaws.com/858081815435/Input_Queue';
+$input_queue = 'https://sqs.us-west-2.amazonaws.com/858081815435/Input_Queue';
 
 $req = new stdClass();
 $req->id = rand();
