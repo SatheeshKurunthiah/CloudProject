@@ -28,4 +28,6 @@ $queue->sendMessage(array(
     'MessageBody' => $req_json,
 ));
 
+http_response_code(200);
+
 ?>
