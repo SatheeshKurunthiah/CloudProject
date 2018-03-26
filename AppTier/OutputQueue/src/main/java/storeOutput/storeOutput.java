@@ -71,7 +71,7 @@ public class storeOutput {
 						System.out.println("receiveMsg: " + "Key: " + key + ", Value: " + output);
 						processedObjects.put(id, key);
 						// Put the object in the bucket
-						storeOutput.putObject("image-recognition-result", key, output);
+						storeOutput.putObject("image-recognition-results", key, output);
 					} else {
 						System.out.println("receiveMsg: " + "Object already exists in bucket");
 					}

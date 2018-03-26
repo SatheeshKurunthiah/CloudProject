@@ -6,7 +6,7 @@ use Aws\S3\S3Client;
 
 $queue = SqsClient::factory(array(
     'version' => 'latest',
-    'region'  => 'us-west-2',
+    'region'  => 'us-west-1',
     'credentials' => array(
     	'key' => 'AKIAJMVZ7WZA37QWGEBQ',
     	'secret'  => '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',
@@ -15,15 +15,15 @@ $queue = SqsClient::factory(array(
 
 $s3 = S3Client::factory(array(
     'version' => 'latest',
-    'region' => 'us-west-2',
+    'region' => 'us-west-1',
     'credentials' => array(
     	'key' => 'AKIAJMVZ7WZA37QWGEBQ',
       	'secret'  => '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',
     )
 ));
 
-$input_queue = 'https://sqs.us-west-2.amazonaws.com/858081815435/Input_Queue';
-$bucket = 'image-recognition-result';
+$input_queue = 'https://sqs.us-west-1.amazonaws.com/858081815435/Input_Queue';
+$bucket = 'image-recognition-results';
 
 $req = new stdClass();
 $req->id = rand();
