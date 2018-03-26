@@ -43,13 +43,12 @@ while(true){
         if($s3->doesObjectExist($bucket, $filename)){
             $result = $s3->getObject(array(
                 'Bucket' => $bucket,
-                'Key'    => $filename,
-                'SaveAs' => "/home/ubuntu/CloudProject/Results/" . $filename
+                'Key'    => $filename
             ));
-            $image_result = file_get_contents("/home/ubuntu/CloudProject/Results/" . $filename);
+            $image_result = (string) $result['Body'];
             $output = "[" . $filename . "," . $image_result . "]";
-            http_response_code(200);
             echo $output . "\n";
+            http_response_code(200);
             break;
         }
     } catch (S3Exception $e) {}
