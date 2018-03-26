@@ -43,7 +43,7 @@ public class Scaling {
 	final static String Queue1 = "Input_Queue";
 	final static AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
 	final static AmazonEC2 ec2 = AmazonEC2ClientBuilder.defaultClient();
-	final static int MaxInstances = 20;
+	final static int MaxInstances = 9;
 	final static AmazonCloudWatch cw = AmazonCloudWatchClientBuilder.defaultClient();
 	final static HandleAlarms alarm = new HandleAlarms();
 
@@ -134,14 +134,15 @@ public class Scaling {
         }
         return instanceId;
         
+        
 	}
 	
 	public static void scale() throws InterruptedException
 	{
-		int requestCount = getMessageCount();
 		String instanceId = null;
 		String alarmName = null;
 		int instanceCount = getInstances();
+		int requestCount = getMessageCount();
 		System.out.println("Running Instances: " + instanceCount);
 		Thread.sleep(2000);
 		if (instanceCount == 0)
@@ -150,24 +151,23 @@ public class Scaling {
 			alarmName = "Alarm" + instanceId;
 			alarm.createCloudWatchAlarm(instanceId,alarmName);
 		}
-		while (requestCount!=0) {
-			
-			instanceCount = getInstances();
-			if(instanceCount < MaxInstances)
+		while (true) {
+			if(instanceCount < MaxInstances && requestCount > 0)
 			{
 				instanceId = createInstance();
 				alarmName = "Alarm" + instanceId;
 				alarm.createCloudWatchAlarm(instanceId,alarmName);
-				requestCount = getMessageCount();
+				Thread.sleep(1000);
+			}else {
+				Thread.sleep(10000);
 			}
-			//requestCount -=1;
-			Thread.sleep(10000);
+			instanceCount = getInstances();
+			requestCount = getMessageCount();
 		}
 	}
 	
 	
 	public static void main(String[] args) throws InterruptedException {
-		while (true)
 			scale();
 	}
 }
