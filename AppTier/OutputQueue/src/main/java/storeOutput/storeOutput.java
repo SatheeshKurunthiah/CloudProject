@@ -66,12 +66,12 @@ public class storeOutput {
 					input = input.substring(2, input.length() - 2);
 					String output = obj.get("output").toString();
 					output = output.substring(2, output.indexOf("(") - 1);
-					String key = "[" + input + ", " + output + "]";
+					String key = input;
 					if (!processedObjects.containsKey(id)) {
 						System.out.println("receiveMsg: " + "Key: " + key + ", Value: " + output);
 						processedObjects.put(id, key);
 						// Put the object in the bucket
-						storeOutput.putObject("image-recognition-results", key, output);
+						storeOutput.putObject("image-recognition-result", key, output);
 					} else {
 						System.out.println("receiveMsg: " + "Object already exists in bucket");
 					}
