@@ -8,8 +8,8 @@ $queue = SqsClient::factory(array(
     'version' => 'latest',
     'region'  => 'us-west-1',
     'credentials' => array(
-    	'key' => 'AKIAJMVZ7WZA37QWGEBQ',
-    	'secret'  => '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',
+    	'key' => 'AKIAJJGVSSTQZ75HVGTA',
+    	'secret'  => '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',
     )
 ));
 
@@ -17,13 +17,13 @@ $s3 = S3Client::factory(array(
     'version' => 'latest',
     'region' => 'us-west-1',
     'credentials' => array(
-    	'key' => 'AKIAJMVZ7WZA37QWGEBQ',
-      	'secret'  => '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',
+    	'key' => 'AKIAJJGVSSTQZ75HVGTA',
+      	'secret'  => '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',
     )
 ));
 
-$input_queue = 'https://sqs.us-west-1.amazonaws.com/858081815435/Input_Queue';
-$bucket = 'image-recognition-results';
+$input_queue = 'https://sqs.us-west-1.amazonaws.com/436902321227/Input_Queue';
+$bucket = 'cloud-image-recognition-results';
 
 $req = new stdClass();
 $req->id = rand();

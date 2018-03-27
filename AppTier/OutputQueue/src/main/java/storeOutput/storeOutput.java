@@ -32,7 +32,7 @@ public class storeOutput {
 
 	public static void receiveMsg() {
 		final AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
-		String queueUrl = "https://sqs.us-west-2.amazonaws.com/858081815435/Output_Queue";
+		String queueUrl = "https://sqs.us-west-1.amazonaws.com/436902321227/Output_Queue";
 
 		// Set message request attributes
 		ReceiveMessageRequest messageRequest = new ReceiveMessageRequest(queueUrl);
@@ -71,7 +71,7 @@ public class storeOutput {
 						System.out.println("receiveMsg: " + "Key: " + key + ", Value: " + output);
 						processedObjects.put(id, key);
 						// Put the object in the bucket
-						storeOutput.putObject("image-recognition-results", key, output);
+						storeOutput.putObject("cloud-image-recognition-results", key, output);
 					} else {
 						System.out.println("receiveMsg: " + "Object already exists in bucket");
 					}
