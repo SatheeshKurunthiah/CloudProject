@@ -27,13 +27,13 @@ public class HandleAlarms {
 			    .withEvaluationPeriods(1)
 			    .withMetricName("CPUUtilization")
 			    .withNamespace("AWS/EC2")
-			    .withPeriod(60)
+			    .withPeriod(300)
 			    .withStatistic(Statistic.Average)
-			    .withThreshold(5.0)
+			    .withThreshold(4.5)
 			    .withActionsEnabled(true)
 			    .withAlarmActions("arn:aws:sns:us-west-1:xxxxxxxxx:NotifyMe", "arn:aws:automate:us-west-1:ec2:terminate")
 			    .withAlarmDescription(
-			        "Alarm when server CPU utilization falls below 5%")
+			        "Alarm when server CPU utilization falls below 4.5%")
 			    .withUnit(StandardUnit.Seconds)
 			    .withDimensions(dimension);
 
