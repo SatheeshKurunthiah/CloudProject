@@ -36,8 +36,8 @@ public class Manager {
 	static AmazonCloudWatchClient cloudWatch;
 	final static int MaxInstances = 19;
 	final static AmazonCloudWatch cw = AmazonCloudWatchClientBuilder.defaultClient();
-	private static String key = "AKIAJMVZ7WZA37QWGEBQ";
-	private static String secret = "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";
+	private static String key = "AKIAJJGVSSTQZ75HVGTA";
+	private static String secret = "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";
 
 	public static int getMessageCount() {
 		List<String> Attributes = new ArrayList<String>();
@@ -60,7 +60,7 @@ public class Manager {
 
 	public static List<String> getInstances() {
 		List<String> Value = new ArrayList<String>();
-		Value.add("ami-32213752");
+		Value.add("ami-bfeff9df");
 		List<String> instances = new ArrayList<>();
 		Filter f = new Filter("image-id", Value);
 		DescribeInstancesRequest request = new DescribeInstancesRequest();
@@ -100,12 +100,13 @@ public class Manager {
 
 			return avgCPUUtilization;
 		} else {
+			System.out.println("No Data point received..");
 			return 100.0;
 		}
 	}
 
 	public static String createInstance() {
-		String imageID = "ami-32213752";
+		String imageID = "ami-bfeff9df";
 		int minInstanceCount = 1;
 		int maxInstanceCount = 1;
 		String instanceId = null;
@@ -136,11 +137,13 @@ public class Manager {
 		int requestCount = getMessageCount();
 		String mainInstance = "";
 		int instanceCount = instances.size();
-		if (instanceCount == 0)
+		if (instanceCount == 0) {
 			mainInstance = createInstance();
+			instanceCount++;
+		}
 		else
 			mainInstance = instances.get(0);
-
+		Thread.sleep(10000);
 		while (true) {
 			System.out.println("Running Instances: " + instanceCount);
 			if (instanceCount < MaxInstances && instanceCount < requestCount + 1) {
