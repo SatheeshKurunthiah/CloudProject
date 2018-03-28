@@ -70,7 +70,7 @@ public class Manager {
 			for (Instance instance : reservation.getInstances()) {
 
 				if (instance.getState().getName().equals("running")
-						|| instance.getState().getName().equals("pending")) {
+						|| instance.getState().getName().equals("pending") || instance.getState().getName().equals("shutting-down")) {
 					instances.add(instance.getInstanceId());
 				}
 			}
@@ -84,14 +84,14 @@ public class Manager {
 		long offsetInMilliseconds = 1000 * 60 * 60;
 		GetMetricStatisticsRequest request = new GetMetricStatisticsRequest()
 				.withStartTime(new Date(new Date().getTime() - offsetInMilliseconds)).withNamespace("AWS/EC2")
-				.withPeriod(60 * 5).withDimensions(new Dimension().withName("InstanceId").withValue(instanceId))
+				.withPeriod(60).withDimensions(new Dimension().withName("InstanceId").withValue(instanceId))
 				.withMetricName("CPUUtilization").withStatistics("Average", "Maximum").withEndTime(new Date());
 		GetMetricStatisticsResult getMetricStatisticsResult = cloudWatch.getMetricStatistics(request);
 
 		double avgCPUUtilization = 0;
 		List dataPoint = getMetricStatisticsResult.getDatapoints();
 
-		if (dataPoint.size() > 0) {
+//		if (dataPoint.size() > 0) {
 			for (Object aDataPoint : dataPoint) {
 				Datapoint dp = (Datapoint) aDataPoint;
 				avgCPUUtilization = dp.getAverage();
@@ -99,10 +99,10 @@ public class Manager {
 			System.out.println("Instance ID: " + instanceId + " CPU Util: " + avgCPUUtilization);
 
 			return avgCPUUtilization;
-		} else {
-			System.out.println("No Data point received..");
-			return 100.0;
-		}
+//		} else {
+//			System.out.println("No Data point received..");
+//			return 100.0;
+//		}
 	}
 
 	public static String createInstance() {
@@ -157,6 +157,7 @@ public class Manager {
 					double utilization = getInstanceAverageLoad(id);
 					if (utilization < 5) {
 						terminateinstance(id);
+						Thread.sleep(1000);
 					}
 				}
 				Thread.sleep(10000);
