@@ -1,5 +1,16 @@
 # Cloud Project
 
+Members
+
+Satheesh Kurunthiah - 1212901792
+Sachin Sundar Pungampalayam Shanmugasundaram – 1213230978
+Raj Sadaye – 1213175416
+Shubham Gondane – 1213179615
+
+IP Address - 13.57.183.30
+
+S3 Bucket Name - cloud-image-recognition-results
+
 This project has 4 components.
 
 1. PHP app that pushes the requested file into Input queue and send the result from S3 as response to the request. This program runs in Main Controller (EC2 Instance)
