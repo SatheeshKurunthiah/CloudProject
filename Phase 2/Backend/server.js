@@ -14,7 +14,7 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(methodOverride());
 
 app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'http://35.199.144.145:8000');
+    res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.header('Access-Control-Allow-Credentials', 'true');
@@ -38,6 +38,6 @@ app.use(function (err, req, res, next) {
 
 module.exports = app;
 
-var server = app.listen(8001, function () {
+var server = app.listen(8001, '0.0.0.0', function () {
     console.log("Listening on port :", server.address().port);
 });
