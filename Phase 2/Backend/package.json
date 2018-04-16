@@ -1,0 +1,13 @@
+{
+    "name": "bug-tracker",
+    "version": "1.0.0",
+    "description": "Keeps track for software bugs.",
+    "main": "server.js",
+    "author": "Satheesh",
+    "dependencies": {
+        "express": "~4.7.2",
+        "morgan": "~1.2.2",
+        "body-parser": "~1.5.2",
+        "method-override": "~2.1.2"
+    }
+}
