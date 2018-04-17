@@ -6,6 +6,8 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var index = require('./routes/index');
 
+app.set('view engine', 'jade');
+
 app.use(express.static(__dirname + '/public'));
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ 'extended': 'true' }));
@@ -38,6 +40,6 @@ app.use(function (err, req, res, next) {
 
 module.exports = app;
 
-var server = app.listen(8001, '0.0.0.0', function () {
+var server = app.listen(process.env.PORT || 8001, '0.0.0.0', function () {
     console.log("Listening on port :", server.address().port);
 });

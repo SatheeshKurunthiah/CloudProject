@@ -4,6 +4,10 @@
     "description": "Keeps track for software bugs.",
     "main": "server.js",
     "author": "Satheesh",
+    "scripts": {
+        "start": "node server.js",
+        "deploy": "gcloud preview app deploy"
+    },
     "dependencies": {
         "express": "~4.7.2",
         "morgan": "~1.2.2",
