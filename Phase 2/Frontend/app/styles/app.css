@@ -1,0 +1,68 @@
+/* app css stylesheet */
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  padding: 10px;
+}
+
+.customheader {
+  background: #3a3637 !important;
+  height: 50px;
+}
+.custombody {
+  padding: 15px 0px;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Roboto', sans-serif;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu>li {
+  display: inline;
+}
+
+.menu>li+li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.slider ul {
+  padding: 0px;
+  margin: 0;
+}
+
+.slider ul li {
+  display: inline-block;
+  list-style: none;
+  width: 200px;
+  height: 200px;
+  margin-left: 19px;
+}
+
+.footer {
+  background: #3a3637;
+  padding: 15px 0px;
+}
+
+.footer p {
+  padding-top: 30px;
+}

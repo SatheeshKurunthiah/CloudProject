@@ -14,43 +14,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
-  <link rel="stylesheet" href="app.css">
-  <base href="./">
+  <link rel="stylesheet" href="styles/custom_bootstrap.css">
+  <link rel="stylesheet" href="styles/app.css">
+  <link rel="stylesheet" href="styles/header.css">
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/alert.css">
+
+  <!-- Drag and Drop -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
   <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 
 <body ng-app="myApp">
 
   <div class="container" ng-cloak>
-    <!-- <div class="customheader">
-      <div ng-include="'views/header.html'"></div>
-    </div> -->
-    <div class="custombody">
-      <!-- <div class="left-orientation">
+    <div class="customheader">
+      <div ng-include="'views/header/header.html'"></div>
+    </div>
+
+    <!-- <div class="left-orientation">
         <div ng-include="'views/sidebar.html'"></div>
       </div> -->
 
-      <div class="row right-orientation">
-        <div class="ui-view-container">
-          <div ui-view></div>
-        </div>
+    <div class="row right-orientation custombody">
+      <div class="ui-view-container">
+        <div ui-view></div>
       </div>
     </div>
-    <!-- <div ng-include="'views/alert.html'"></div> -->
-    <div class="footer">
-    </div>
+
+    <div ng-include="'views/alert/alert.html'"></div>
+    <div class="footer"></div>
   </div>
 
   <!-- In production use:
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
   -->
+
+  <!-- Bower scripts -->
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/angular-ui-sortable/sortable.js"></script>
 
-
+  <!-- Application scripts -->
   <script src="scripts/app.js"></script>
-  <script src="scripts/controllers/main.js"></script>
   <script src="scripts/app.config.js"></script>
+
+  <!-- View Scripts -->
+  <script src="views/container/main.js"></script>
+  <script src="views/header/header.js"></script>
+  <script src="views/alert/alert.js"></script>
+
 </body>
 
 </html>

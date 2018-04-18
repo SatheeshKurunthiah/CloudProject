@@ -1,0 +1,20 @@
+<div ng-app="myApp" ng-controller="MainCtrl" class="container">
+
+  <div id="tasksContainer" class="display-container">
+
+
+    <div ui-sortable ng-model="lists">
+      <div ng-repeat="row in lists track by $index" class="apps-container screen floatleft" ui-sortable="sortableOptions" ng-model="row.items">
+        <h3 style="text-align: center;">{{row.displayName}}</h3>
+        <div ng-repeat="app in row.items track by $index" class="app">
+          <strong>{{app.title}}</strong>
+          <div class="row">
+            <em style="word-wrap: break-word;">{{app.description}}</em>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="clear"></div>
+</div>

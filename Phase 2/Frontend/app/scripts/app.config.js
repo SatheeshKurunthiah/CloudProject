@@ -2,17 +2,18 @@
 
 angular.module('myApp').config(function ($urlRouterProvider, $stateProvider, $httpProvider, API_URL) {
 
-    $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/');
 
-    $stateProvider
-        .state('main', {
-            url: '/',
-            templateUrl: '/views/main.html',
-            controller: 'MainCtrl'
-        });
-})
+        $stateProvider
+            .state('main', {
+                url: '/',
+                templateUrl: '/views/container/main.html',
+                controller: 'MainCtrl'
+            });
+    })
 
     .constant('API_URL', 'https://bugtracker-201402.appspot.com/')
+    // .constant('API_URL', 'http://localhost:8001/')
 
     .run(function ($window) {
         var params = $window.location.search.substring(1);
