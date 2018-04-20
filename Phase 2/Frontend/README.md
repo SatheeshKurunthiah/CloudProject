@@ -5,4 +5,5 @@ This project is a web application where user can create, manage and use project 
 # Development
 
 Type `npm install` for the first time
-For subsequent times type `npm start`
+
+For subsequent runs type `npm start`
