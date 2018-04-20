@@ -11,6 +11,10 @@ body {
 }
 .custombody {
   padding: 15px 0px;
+  height: 100%;
+  height: -moz-available;          /* WebKit-based browsers will ignore this. */
+  height: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+  height: fill-available;
 }
 
 h1, h2, h3, h4, h5 {
@@ -60,6 +64,10 @@ a:hover {
 
 .footer {
   background: #3a3637;
+  position:absolute;
+  bottom:0;
+  width:100%;
+  /* height:60px; */
   padding: 15px 0px;
 }
 

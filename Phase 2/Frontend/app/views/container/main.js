@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp').controller('MainCtrl', function ($scope, alert, $http, API_URL) {
-    $http.get(API_URL + 'v1/tasks', {
+    $http.get(API_URL + 'v1/get/tasks', {
             params: {
                 user: 'dummy_user_1'
             }
@@ -17,7 +17,7 @@ angular.module('myApp').controller('MainCtrl', function ($scope, alert, $http, A
 
             var columnCount = columns.length;
             var columnMargin = 10;
-            columns.width(Math.floor((container.width() - (columnMargin * (columnCount + 1))) / (columnCount + 1)));
+            columns.width(Math.floor(((container.width() - (columnMargin * (columnCount + 1))) / columnCount)) - 20);
 
             $scope.lists = res;
 

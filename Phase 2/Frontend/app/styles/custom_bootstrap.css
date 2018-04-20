@@ -1352,7 +1352,7 @@ body {
     font-size: 15px;
     line-height: 1.42857143;
     color: #ebebeb;
-    background-color: #2b3e50;
+    background-color: #0A2034;
 }
 
 input, button, select, textarea {
@@ -3708,7 +3708,7 @@ tbody.collapse.in {
 }
 
 .open>.dropdown-menu {
-    display: block;
+    display: block !important;
 }
 
 .open>a {
@@ -6693,6 +6693,7 @@ button.close {
 
 .center-block {
     display: block;
+    width: fit-content;
     margin-left: auto;
     margin-right: auto;
 }

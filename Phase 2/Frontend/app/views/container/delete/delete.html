@@ -1,0 +1,29 @@
+<div ng-app="myApp" ng-controller="DeleteCtrl" class="container">
+    <div class="center-block">
+        <button ng-click="deleteTasks()" class="fancy-button">Delete</button>
+    </div>
+    <br/>
+
+    <div id="tasksContainer" class="display-container">
+        <div ui-sortable="sortableOptions" class="apps-container screen floatleft" ng-model="backlogList">
+            <h3 style="text-align: center; color: #df691a;">Tasks</h3>
+            <div class="app" ng-repeat="app in backlogList">
+                <strong>{{app.title}}</strong>
+                <div class="row">
+                    <em style="word-wrap: break-word;">{{app.description}}</em>
+                </div>
+            </div>
+        </div>
+        <div ui-sortable="sortableOptions" class="apps-container screen floatleft" ng-model="deleteList">
+            <h3 style="text-align: center; color: #df691a;">To Be Deleted</h3>
+            <div class="app" ng-repeat="app in deleteList">
+                <strong>{{app.title}}</strong>
+                <div class="row">
+                    <em style="word-wrap: break-word;">{{app.description}}</em>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+</div>

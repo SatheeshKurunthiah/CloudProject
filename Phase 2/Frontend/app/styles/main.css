@@ -4,11 +4,11 @@
 }
 
 .apps-container {
-  border: 2px dashed blue;
-  margin: 10px 10px 0 0;
-  padding: 5px;
-  min-width:200px;
-  min-height:50px;
+	border: 2px dashed blue;
+	margin: 10px 10px 0 0;
+	padding: 5px;
+	min-width: 200px;
+	min-height: 50px;
 }
 
 .app {
@@ -17,8 +17,7 @@
 	margin: 5px 0;
 	border: 2px solid #444;
 	border-radius: 5px;
-	background-color: #EA8A8A;
-
+	background-color: #3a3637;
 	/* font-size: 1.1em; */
 	/* font-weight: bold; */
 	text-align: center;
@@ -28,7 +27,6 @@
 .display-container {
 	margin: 0 20px 0 20px;
 }
-
 
 /***  Extra ***/
 
@@ -46,7 +44,7 @@ body {
 }
 
 .logItem {
-  margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 .logList:before {
@@ -60,6 +58,7 @@ body {
 .container {
 	width: auto;
 	margin: auto;
+	position: relative !important;
 }
 
 h2 {
@@ -67,13 +66,162 @@ h2 {
 }
 
 .floatleft {
-  float: left;
+	float: left;
 }
 
 .floatright {
-  float: right;
+	float: right;
 }
 
 .clear {
-  clear: both;
+	clear: both;
+}
+
+.fancy-button {
+	display: inline-block;
+	padding: 15px 25px;
+	font-size: 20px;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	outline: none;
+	color: #df691a;
+	background-color: #3a3637;
+	border: none;
+	border-radius: 15px;
+	box-shadow: 0 9px #999;
+}
+
+.fancy-button:hover {
+	background-color: #474344
+}
+
+.fancy-button:active {
+	background-color: #474344;
+	box-shadow: 0 5px #666;
+	transform: translateY(4px);
+}
+
+.formBox {
+	padding: 50px;
+}
+
+.formBox h3 {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	margin-bottom: 50px;
+	text-transform: uppercase;
+	color: #df691a;
+	font-size: 35px;
+}
+
+.inputBox {
+	position: relative;
+	box-sizing: border-box;
+	margin-bottom: 50px;
+}
+
+.inputBox .inputText {
+	position: absolute;
+	font-size: 24px;
+	line-height: 50px;
+	transition: .5s;
+	opacity: .5;
+}
+
+.inputBox .input {
+	position: relative;
+	width: 100%;
+	height: 50px;
+	color: whitesmoke;
+	background: transparent;
+	border: none;
+	outline: none;
+	font-size: 18px;
+	border-bottom: 1px solid rgba(0, 0, 0, .5);
+}
+
+.focus .inputText {
+	transform: translateY(-30px);
+	font-size: 18px;
+	opacity: 1;
+	color: #df691a;
+}
+
+textarea {
+	height: 100px !important;
+}
+
+.formText {
+	position: absolute;
+	font-size: 24px;
+	line-height: 50px;
+	transition: .5s;
+	opacity: .5;
+}
+
+.radio-lable {
+  margin: 2em;
+  display: inline-block;
+  position: relative;
+  padding-left: 40px;
+  cursor: pointer;
+}
+
+.radio-inline {
+  height: 1px;
+  width: 1px;
+  opacity: 0;
+}
+
+.outside {
+	display: inline-block;
+	position: absolute;
+	left: 0;
+	top: 50%;
+	margin-top: -10px;
+	width: 20px;
+	height: 20px;
+	border: 2px solid #df691a;
+	border-radius: 50%;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	background: none;
+}
+
+.inside {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	display: inline-block;
+	border-radius: 50%;
+	width: 10px;
+	height: 10px;
+	background: #df691a;
+	left: 3px;
+	top: 3px;
+	-webkit-transform: scale(0, 0);
+	transform: scale(0, 0);
+}
+
+.no-transforms .inside {
+	left: auto;
+	top: auto;
+	width: 0;
+	height: 0;
+}
+
+input:checked+.outside .inside {
+	-webkit-animation: radio-select 0.1s linear;
+	animation: radio-select 0.1s linear;
+	-webkit-transform: scale(1, 1);
+	transform: scale(1, 1);
+}
+
+.no-transforms input:checked+.outside .inside {
+	width: 10px;
+	height: 10px;
 }

@@ -1,0 +1,106 @@
+<div ng-app="myApp" ng-controller="CreateCtrl" class="container-fluid">
+    <div class="container">
+        <div class="formBox">
+            <form>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3>Create New Task</h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="inputBox ">
+                            <div class="inputText">Name</div>
+                            <input type="text" value="" ng-model="data.name" class="input">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="formText">Type</div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="radio-lable">
+                                    <input type="radio" class="radio-inline" name="radios" ng-model="data.type" value="task">
+                                    <span class="outside"><span class="inside"></span></span>Task
+                                    </label>
+                                <label class="radio-lable">
+                                    <input type="radio" class="radio-inline" name="radios" ng-model="data.type" value="bug">
+                                    <span class="outside"><span class="inside"></span></span>Bug
+                                    </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="formText">Priority</div>
+                            </div>
+                            <div class="col-sm-8">
+                                <select name="mySelect" class="form-control" ng-options="option.name for option in data.priority track by option.id"
+                                    ng-model="data.selectedPriority"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 
+                        <button type="button" class="btn btn-primary dropdown-toggle" ng-click="onDropDownClick()" data-toggle="dropdown">Priority
+                                <span class="caret"></span>
+                        </button>
+
+                        <ul id="priority-drop-down" class="dropdown-menu open" role="menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul> -->
+
+                    <div class="col-sm-4">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="formText">Assignee</div>
+                            </div>
+                            <div class="col-sm-8">
+                                <select name="mySelect" class="form-control" ng-options="option.name for option in data.assignee track by option.id"
+                                    ng-model="data.selectedAssignee"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="formText">Project</div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <select name="mySelect" class="form-control" ng-options="option.name for option in data.project track by option.id"
+                                        ng-model="data.selectedProject"></select>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <br><br>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="inputBox">
+                            <div class="inputText">Description</div>
+                            <textarea class="input" ng-model="data.description"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="center-block">
+                    <div class="col-sm-12">
+                        <input type="submit" ng-click="onCreateTask(data)" class="fancy-button" value="Create">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

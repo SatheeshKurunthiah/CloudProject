@@ -54,7 +54,7 @@ function getTasks(req, res, user){
     res.status(200).send(JSON.stringify(result));
 };
 
-module.exports = function (req, res) {
+exports.getTasks = function (req, res) {
     var user = req.query.user || true;
     
     console.log(user);
@@ -64,3 +64,51 @@ module.exports = function (req, res) {
 
     getTasks(req, res, user);
 };
+
+exports.createTask = function(req, res){
+    var task = req.body.task;
+    if (!task) {
+        return res.status(400).json({
+            message: 'Please send details to create new task..!!'
+        });
+    }
+
+    //Update the data in DB..
+    console.log(JSON.stringify(task));
+
+    res.status(200).json({
+        message: 'Tasks Created..!!'
+    });
+};
+
+exports.updateTasks = function (req, res) {
+    var tasks = req.body.tasks;
+    if (!tasks) {
+        return res.status(400).json({
+            message: 'Please send tasks to update..!!'
+        });
+    }
+
+    //Update the data in DB..
+    console.log(JSON.stringify(tasks));
+
+    res.status(200).json({
+        message: 'Tasks Updated..!!'
+    });
+};
+
+exports.deleteTasks = function(req, res){
+    var tasks = req.query.tasks;
+    if (!tasks) {
+        return res.status(500).json({
+            message: 'No task id provided..'
+        });
+    }
+
+    //Delete the data in DB..
+    console.log(JSON.stringify(tasks));
+
+    res.status(200).json({
+        message: 'Tasks deleted..!!'
+    });
+}

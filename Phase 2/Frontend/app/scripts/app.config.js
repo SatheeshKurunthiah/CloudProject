@@ -9,6 +9,16 @@ angular.module('myApp').config(function ($urlRouterProvider, $stateProvider, $ht
                 url: '/',
                 templateUrl: '/views/container/main.html',
                 controller: 'MainCtrl'
+            })
+            .state('createTask', {
+                url: '/create/task',
+                templateUrl: '/views/container/create/create.html',
+                controller: 'CreateCtrl'
+            })
+            .state('deleteTask', {
+                url: '/delete/task',
+                templateUrl: '/views/container/delete/delete.html',
+                controller: 'DeleteCtrl'
             });
     })
 

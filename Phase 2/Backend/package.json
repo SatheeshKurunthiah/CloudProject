@@ -14,5 +14,6 @@
         "method-override": "~2.1.2",
         "morgan": "~1.2.2",
         "shortid": "^2.2.8"
-    }
+    },
+    "devDependencies": {}
 }
