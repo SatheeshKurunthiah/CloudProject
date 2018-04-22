@@ -9,8 +9,10 @@
         "deploy": "gcloud preview app deploy"
     },
     "dependencies": {
+        "@google-cloud/datastore": "^1.4.0",
         "body-parser": "~1.5.2",
         "express": "~4.7.2",
+        "jade": "^1.11.0",
         "method-override": "~2.1.2",
         "morgan": "~1.2.2",
         "shortid": "^2.2.8"

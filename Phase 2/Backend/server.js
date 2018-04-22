@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var index = require('./routes/index');
 
+app.set('views', __dirname);
 app.set('view engine', 'jade');
 
 app.use(express.static(__dirname + '/public'));

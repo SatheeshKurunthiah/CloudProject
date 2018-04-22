@@ -22,8 +22,8 @@ angular.module('myApp').config(function ($urlRouterProvider, $stateProvider, $ht
             });
     })
 
-    .constant('API_URL', 'https://bugtracker-201402.appspot.com/')
-    // .constant('API_URL', 'http://localhost:8001/')
+    // .constant('API_URL', 'https://bugtracker-201402.appspot.com/')
+    .constant('API_URL', 'http://localhost:8001/')
 
     .run(function ($window) {
         var params = $window.location.search.substring(1);

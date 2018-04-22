@@ -20,7 +20,7 @@ angular.module('myApp').controller('DeleteCtrl', function ($scope, alert, $http,
             columns.width(Math.floor(((container.width() - (columnMargin * (columnCount + 1))) / (columnCount)) - 50));
 
             var tasks = []
-            res.forEach(function(column) {
+            res.forEach(function (column) {
                 column.items.forEach(item => tasks.push(item));
             }, this);
 
@@ -30,11 +30,14 @@ angular.module('myApp').controller('DeleteCtrl', function ($scope, alert, $http,
             $scope.sortableOptions = {
                 placeholder: "app",
                 connectWith: ".apps-container"
-              };
+            };
 
-            $scope.deleteTasks = function(){
+            $scope.deleteTasks = function () {
                 var items = $scope.deleteList.map(function (x) {
-                    return x.taskId;
+                    return {
+                        name: x.name,
+                        project: x.project
+                    };
                 });
 
                 $http.delete(API_URL + 'v1/delete/tasks', {

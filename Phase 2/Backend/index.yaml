@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<datastore-indexes
+  autoGenerate="true">
+    <datastore-index kind="Tasks" ancestor="false">
+        <property name="name" direction="asc" />
+        <property name="description" direction="asc" />
+        <property name="type" direction="asc" />
+        <property name="project" direction="asc" />
+        <property name="priority" direction="desc" />
+        <property name="assignee" direction="asc" />
+        <property name="created" direction="desc" />
+        <property name="category" direction="asc" />
+        <property name="categoryDisplayName" direction="asc" />
+    </datastore-index>
+</datastore-indexes>

@@ -20,24 +20,43 @@ angular.module('myApp').controller('MainCtrl', function ($scope, alert, $http, A
             columns.width(Math.floor(((container.width() - (columnMargin * (columnCount + 1))) / columnCount)) - 20);
 
             $scope.lists = res;
+            $scope.backup = jQuery.extend(true, [], res);
 
             $scope.sortableOptions = {
                 placeholder: "app",
                 connectWith: ".apps-container",
                 stop: function (e, ui) {
-                    var items = [];
+                    var dragged = null;
+                    var from, to = null;
                     for (var i = 0; i < $scope.lists.length; i++) {
-                        var logEntry = $scope.lists[i].items.map(function (x) {
-                            return x;
-                        });
-                        items.push(logEntry);
+                        var altered = new Set($scope.lists[i].items.map(x => {
+                            return x.name
+                        }));
+                        var original = new Set($scope.backup[i].items.map(x => {
+                            return x.name
+                        }));
+                        var toDiff = [...altered].filter(x => !original.has(x));
+                        var fromDiff = [...original].filter(x => !altered.has(x));
+                        if (toDiff.length > 0) {
+                            dragged = toDiff[0];
+                            to = $scope.backup[i].name;
+                        }
+                        if (fromDiff.length > 0) {
+                            from = $scope.backup[i].name;
+                        }
+
                     }
                     $http.post(API_URL + 'v1/update/tasks', {
-                        tasks: items
+                        tasks: {
+                            taskName: dragged,
+                            from: from,
+                            to: to,
+                            project: 'Project 1'
+                        }
                     }).then(function (res) {
                         console.log(JSON.stringify(res.data));
+                        $scope.backup = jQuery.extend(true, [], $scope.lists);
                     });
-                    console.log(items.length);
                 }
             };
         })

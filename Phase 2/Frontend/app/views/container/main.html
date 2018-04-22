@@ -7,7 +7,7 @@
       <div ng-repeat="row in lists track by $index" class="apps-container screen floatleft" ui-sortable="sortableOptions" ng-model="row.items">
         <h3 style="text-align: center; color: #df691a">{{row.displayName}}</h3>
         <div ng-repeat="app in row.items track by $index" class="app">
-          <strong>{{app.title}}</strong>
+          <strong>{{app.name}}</strong>
           <div class="row">
             <em style="word-wrap: break-word;">{{app.description}}</em>
           </div>

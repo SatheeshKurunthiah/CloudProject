@@ -1,71 +1,51 @@
-var shortid = require('shortid');
+const shortid = require('shortid');
+const db = require('../services/db.js');
+const table = 'Tasks';
 
-function getTasks(req, res, user){
-    var result = [{
-        name: 'backlog',
-        displayName: 'Backlog',
-        items: [{
-            taskId: shortid.generate(),
-            title: 'Facebook',
-            description: 'https://www.facebook.com'
-        }, {
-            taskId: shortid.generate(),
-            title: 'Youtube',
-            description: 'https://www.youtube.com'
-        }]
-    }, {
-        name: 'todo',
-        displayName: 'To Do',
-        items: [{
-            taskId: shortid.generate(),
-            title: 'Google',
-            description: 'https://www.google.com'
-        }, {
-            taskId: shortid.generate(),
-            title: 'Whatsapp',
-            description: 'https://www.web.whatsapp.com'
-        }]
-    }, {
-        name: 'progress',
-        displayName: 'In Progress',
-        items: [{
-            taskId: shortid.generate(),
-            title: 'Amazon',
-            description: 'https://www.amazon.com'
-        }, {
-            taskId: shortid.generate(),
-            title: 'Instagram',
-            description: 'https://www.instagram.com'
-        }]
-    }, {
-        name: 'resolved',
-        displayName: 'Resolved',
-        items: [{
-            taskId: shortid.generate(),
-            title: 'Yahoo',
-            description: 'https://www.yahoo.com'
-        }, {
-            taskId: shortid.generate(),
-            title: 'GMail',
-            description: 'https://www.gmail.com'
-        }]
-    }];
+const categories = [
+    'backlog',
+    'todo',
+    'progress',
+    'resolved'
+];
+const dCategories = [
+    'Backlog',
+    'To do',
+    'In Progress',
+    'Resolved'
+];
 
-    res.status(200).send(JSON.stringify(result));
-};
+var generateKey = function (task) {
+    return task.name.split(' ').join('_') + '_' + task.project.split(' ').join('_');
+}
 
 exports.getTasks = function (req, res) {
     var user = req.query.user || true;
-    
-    console.log(user);
+
     if (!user) {
-        return res.status(400).json({ message: 'User not found..!!' });
+        return res.status(400).json({
+            message: 'User not found..!!'
+        });
     }
 
-    getTasks(req, res, user);
+    // Get data from db
+    var result = [];
+    Promise.all([db.getAllData(table)]).then(function (tasks) {
+        var index = 0;
+        categories.forEach(function (category) {
+            result.push({
+                name: category,
+                displayName: dCategories[index],
+                items: tasks[0][index]
+            })
+            index += 1;
+        }, this);
+
+        res.status(200).send(JSON.stringify(result));
+    });
 };
 
-exports.createTask = function(req, res){
+exports.createTask = function (req, res) {
     var task = req.body.task;
     if (!task) {
         return res.status(400).json({
@@ -73,31 +53,49 @@ exports.createTask = function(req, res){
         });
     }
 
-    //Update the data in DB..
-    console.log(JSON.stringify(task));
-
-    res.status(200).json({
-        message: 'Tasks Created..!!'
+    //Create data in DB..
+    task.created = Date.now();
+    task.category = 'backlog';
+    task.categoryDisplayName = 'Backlog';
+    var key = generateKey(task);
+    Promise.all([db.storeData(table, key, task)]).then(function () {
+        res.status(200).json({
+            message: 'Tasks Created..!!'
+        });
     });
 };
 
 exports.updateTasks = function (req, res) {
-    var tasks = req.body.tasks;
-    if (!tasks) {
+    var toBeUpdatedTask = req.body.tasks;
+    if (!toBeUpdatedTask) {
         return res.status(400).json({
             message: 'Please send tasks to update..!!'
         });
     }
 
     //Update the data in DB..
-    console.log(JSON.stringify(tasks));
+    var key = generateKey({
+        name: toBeUpdatedTask.taskName,
+        project: toBeUpdatedTask.project
+    });
+    var getData = db.getDataByKey(table, key);
+    var updateData = getData.then(function (task) {
+        task.category = toBeUpdatedTask.to;
+        task.categoryDisplayName = dCategories[categories.indexOf(toBeUpdatedTask.to)];
+        return task;
+    });
+    var saveData = updateData.then(function (task) {
+        return db.updateData(table, key, task);
+    })
 
-    res.status(200).json({
-        message: 'Tasks Updated..!!'
+    Promise.all([getData, updateData, saveData]).then(function (result) {
+        res.status(200).json({
+            message: 'Tasks updated..!!'
+        });
     });
 };
 
-exports.deleteTasks = function(req, res){
+exports.deleteTasks = function (req, res) {
     var tasks = req.query.tasks;
     if (!tasks) {
         return res.status(500).json({
@@ -106,9 +104,18 @@ exports.deleteTasks = function(req, res){
     }
 
     //Delete the data in DB..
-    console.log(JSON.stringify(tasks));
+    var keys = []
+    if (Array.isArray(tasks)) {
+        tasks.forEach(function (item) {
+            keys.push(generateKey(JSON.parse(item)));
+        }, this);
+    } else {
+        keys.push(generateKey(JSON.parse(tasks)));
+    }
 
-    res.status(200).json({
-        message: 'Tasks deleted..!!'
+    Promise.all([db.deleteData(table, keys)]).then(function () {
+        res.status(200).json({
+            message: 'Tasks deleted..!!'
+        });
     });
 }
