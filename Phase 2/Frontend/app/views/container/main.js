@@ -27,7 +27,7 @@ angular.module('myApp').controller('MainCtrl', function ($scope, alert, $http, A
                 connectWith: ".apps-container",
                 stop: function (e, ui) {
                     var dragged = null;
-                    var from, to = null;
+                    var from, to, project, items = null;
                     for (var i = 0; i < $scope.lists.length; i++) {
                         var altered = new Set($scope.lists[i].items.map(x => {
                             return x.name
@@ -43,15 +43,16 @@ angular.module('myApp').controller('MainCtrl', function ($scope, alert, $http, A
                         }
                         if (fromDiff.length > 0) {
                             from = $scope.backup[i].name;
+                            items = $scope.backup[i].items;
                         }
-
                     }
-                    $http.post(API_URL + 'v1/update/tasks', {
+                    project = items.find(x => x.name == dragged).project;
+                    $http.put(API_URL + 'v1/update/tasks', {
                         tasks: {
                             taskName: dragged,
                             from: from,
                             to: to,
-                            project: 'Project 1'
+                            project: project
                         }
                     }).then(function (res) {
                         console.log(JSON.stringify(res.data));
@@ -62,5 +63,5 @@ angular.module('myApp').controller('MainCtrl', function ($scope, alert, $http, A
         })
         .error(function (err) {
             alert('warning', 'Unable to read data from backend', err);
-        })
+        });
 });

@@ -1,62 +1,70 @@
 'use strict';
 
-angular.module('myApp').controller('CreateCtrl', function ($scope, alert, $http, API_URL, $state) {
-    $scope.isPriorityDropDownOpen = false;
-    $scope.data = {
-        type: 'task',
-        name: '',
-        description: '',
-        priority: [{
-                id: '1',
-                name: 'Critical'
-            },
-            {
-                id: '2',
-                name: 'Severe'
-            },
-            {
-                id: '3',
-                name: 'High'
-            },
-            {
-                id: '4',
-                name: 'Medium'
-            },
-            {
-                id: '5',
-                name: 'Low'
-            }
-        ],
-        assignee: [{
-            id: '1',
-            name: 'Not Assigned'
-        }, {
-            id: '2',
-            name: 'User 1'
-        }, {
-            id: '3',
-            name: 'User 2'
-        }],
-        project: [{
-            id: '1',
-            name: 'Project 1'
-        }, {
-            id: '2',
-            name: 'Project 2'
-        }],
-        selectedPriority: {
-            id: '4',
-            name: 'Medium'
-        },
-        selectedAssignee: {
-            id: '1',
-            name: 'Not Assigned'
-        },
-        selectedProject: {
-            id: '1',
-            name: 'Project 1'
+angular.module('myApp').controller('CreateCtrl', function ($scope, $q, alert, $http, API_URL, $state) {
+
+    var getProject = $http.get(API_URL + 'v1/get/project', {
+        params: {
+            user: 'dummy_user_1'
         }
-    };
+    });
+    var getUsers = $http.get(API_URL + 'v1/get/user');
+    var priority = [
+        'Critical',
+        'Severe',
+        'High',
+        'Medium',
+        'Low'
+    ];
+
+    $q.all([getProject, getUsers]).then(function (res) {
+        var projects = [],
+            users = [],
+            priorities = [],
+            index = 1;
+
+        res[0].data.forEach(function (pro) {
+            projects.push({
+                id: index,
+                name: pro
+            });
+            index += 1;
+        }, this);
+
+        index = 2;
+        users.push({
+            id: 1,
+            name: 'Not Assigned'
+        })
+        res[1].data.forEach(function (pro) {
+            users.push({
+                id: index,
+                name: pro
+            });
+            index += 1;
+        }, this);
+        index = 1;
+        priority.forEach(function (pri) {
+            priorities.push({
+                id: index,
+                name: pri
+            });
+            index += 1;
+        }, this);
+
+        $scope.isPriorityDropDownOpen = false;
+        $scope.data = {
+            type: 'task',
+            name: '',
+            description: '',
+            priority: priorities,
+            assignee: users,
+            project: projects,
+            selectedPriority: priorities[3],
+            selectedAssignee: users[0],
+            selectedProject: projects[0]
+        };
+    });
+
     var input = angular.element(document.getElementsByClassName("input"));
     input.focus(function (event) {
         $(event.target).parent().addClass("focus");
