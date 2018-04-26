@@ -19,6 +19,14 @@ angular.module('myApp').config(function ($urlRouterProvider, $stateProvider, $ht
                 url: '/delete/task',
                 templateUrl: '/views/container/delete/delete.html',
                 controller: 'DeleteCtrl'
+            })
+            .state('getTask', {
+                url: '/get/task',
+                templateUrl: '/views/task/task.html',
+                controller: 'TaskCtrl',
+                params: {
+                    task: null
+                }
             });
     })
 

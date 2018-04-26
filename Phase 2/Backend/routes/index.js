@@ -14,8 +14,14 @@ router.get('/', function (req, res, next) {
 /* Returns tasks associated with user and selected project */
 router.get('/v1/get/tasks', tasks.getTasks);
 
+/* Returns comments associated with task id */
+router.get('/v1/get/comments', tasks.getComments);
+
 /* Create new tasks associated with user and selected project */
 router.post('/v1/create/tasks', tasks.createTask);
+
+/* Create new comment associated with task id */
+router.post('/v1/add/comment', tasks.addComment);
 
 /* Updates tasks associated with user and selected project */
 router.put('/v1/update/tasks', tasks.updateTasks);

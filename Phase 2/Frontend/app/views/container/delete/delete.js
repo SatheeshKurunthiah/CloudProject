@@ -35,8 +35,7 @@ angular.module('myApp').controller('DeleteCtrl', function ($scope, alert, $http,
             $scope.deleteTasks = function () {
                 var items = $scope.deleteList.map(function (x) {
                     return {
-                        name: x.name,
-                        project: x.project
+                        id: x.taskId
                     };
                 });
 

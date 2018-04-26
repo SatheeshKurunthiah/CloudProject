@@ -12,6 +12,8 @@ const categories = [
 ];
 
 var getKey = function (table, key) {
+    if(key == undefined)
+        return null;
     return datastore.key([table, key]);
 };
 
@@ -20,14 +22,7 @@ exports.storeData = function (table, key, data) {
         key: getKey(table, key),
         data: data,
     };
-    return datastore
-        .save(task)
-        .then(() => {
-            console.log('Saved data to db..!!');
-        })
-        .catch(err => {
-            console.error('ERROR:', err);
-        });
+    return datastore.save(task);
 };
 
 exports.updateData = function (table, key, data) {
@@ -44,17 +39,13 @@ exports.getDataByNameAndCategory = function (table, name, category) {
         .createQuery(table)
         .filter('name', '=', name)
         .filter('category', '=', category);
-    return datastore.runQuery(query).then(results => {
-        return results[0];
-    });
+    return datastore.runQuery(query);
 };
 
 exports.getDataByKey = function (table, key) {
     var taskKey = getKey(table, key);
 
-    return datastore.get(taskKey).then(results => {
-        return results[0];
-    });
+    return datastore.get(taskKey);
 };
 
 exports.getAllData = function (table) {

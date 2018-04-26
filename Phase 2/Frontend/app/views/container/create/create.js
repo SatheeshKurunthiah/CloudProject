@@ -34,7 +34,7 @@ angular.module('myApp').controller('CreateCtrl', function ($scope, $q, alert, $h
         users.push({
             id: 1,
             name: 'Not Assigned'
-        })
+        });
         res[1].data.forEach(function (pro) {
             users.push({
                 id: index,

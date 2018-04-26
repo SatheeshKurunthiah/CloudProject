@@ -27,13 +27,13 @@ angular.module('myApp').controller('MainCtrl', function ($scope, alert, $http, A
                 connectWith: ".apps-container",
                 stop: function (e, ui) {
                     var dragged = null;
-                    var from, to, project, items = null;
+                    var from, to, taskId, items = null;
                     for (var i = 0; i < $scope.lists.length; i++) {
                         var altered = new Set($scope.lists[i].items.map(x => {
-                            return x.name
+                            return x.taskId
                         }));
                         var original = new Set($scope.backup[i].items.map(x => {
-                            return x.name
+                            return x.taskId
                         }));
                         var toDiff = [...altered].filter(x => !original.has(x));
                         var fromDiff = [...original].filter(x => !altered.has(x));
@@ -46,18 +46,18 @@ angular.module('myApp').controller('MainCtrl', function ($scope, alert, $http, A
                             items = $scope.backup[i].items;
                         }
                     }
-                    project = items.find(x => x.name == dragged).project;
-                    $http.put(API_URL + 'v1/update/tasks', {
-                        tasks: {
-                            taskName: dragged,
-                            from: from,
-                            to: to,
-                            project: project
-                        }
-                    }).then(function (res) {
-                        console.log(JSON.stringify(res.data));
-                        $scope.backup = jQuery.extend(true, [], $scope.lists);
-                    });
+                    if(dragged != undefined){
+                        $http.put(API_URL + 'v1/update/tasks', {
+                            tasks: {
+                                taskId: dragged,
+                                from: from,
+                                to: to,
+                            }
+                        }).then(function (res) {
+                            console.log(JSON.stringify(res.data));
+                            $scope.backup = jQuery.extend(true, [], $scope.lists);
+                        });
+                    }
                 }
             };
         })
