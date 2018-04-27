@@ -12,7 +12,7 @@ const categories = [
 ];
 
 var getKey = function (table, key) {
-    if(key == undefined)
+    if (key == undefined)
         return null;
     return datastore.key([table, key]);
 };
@@ -49,12 +49,20 @@ exports.getDataByKey = function (table, key) {
 };
 
 exports.getAllData = function (table) {
+    const query = datastore
+        .createQuery(table);
+
+    return datastore.runQuery(query)
+};
+
+exports.getDataByProjectAndCategories = function (table, project) {
     var categoriesList = []
     categories.forEach(category => {
         categoriesList.push(new Promise(function (resolve, reject) {
             const query = datastore
                 .createQuery(table)
-                .filter('category', '=', category);
+                .filter('category', '=', category)
+                .filter('project', '=', project);
             datastore.runQuery(query).then(results => {
                 resolve(results[0]);
             })

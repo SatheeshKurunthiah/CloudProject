@@ -5,19 +5,30 @@ angular.module('myApp').config(function ($urlRouterProvider, $stateProvider, $ht
         $urlRouterProvider.otherwise('/');
 
         $stateProvider
-            .state('main', {
+            .state('selectProject', {
                 url: '/',
-                templateUrl: '/views/container/main.html',
-                controller: 'MainCtrl'
+                templateUrl: '/views/project/project.html',
+                controller: 'ProjectCtrl',
+                params: {
+                    addProject: false
+                }
+            })
+            .state('dashboard', {
+                url: '/dashboard',
+                templateUrl: '/views/dashboard/dashboard.html',
+                controller: 'DashboardCtrl',
+                params: {
+                    project: null
+                }
             })
             .state('createTask', {
                 url: '/create/task',
-                templateUrl: '/views/container/create/create.html',
+                templateUrl: '/views/create/create.html',
                 controller: 'CreateCtrl'
             })
             .state('deleteTask', {
                 url: '/delete/task',
-                templateUrl: '/views/container/delete/delete.html',
+                templateUrl: '/views/delete/delete.html',
                 controller: 'DeleteCtrl'
             })
             .state('getTask', {

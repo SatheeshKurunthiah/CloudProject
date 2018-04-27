@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp').controller('CreateCtrl', function ($scope, $q, alert, $http, API_URL, $state) {
+angular.module('myApp').controller('CreateCtrl', function ($scope, $rootScope, $q, alert, $http, API_URL, $state) {
 
     var getProject = $http.get(API_URL + 'v1/get/project', {
         params: {
@@ -25,7 +25,7 @@ angular.module('myApp').controller('CreateCtrl', function ($scope, $q, alert, $h
         res[0].data.forEach(function (pro) {
             projects.push({
                 id: index,
-                name: pro
+                name: pro.name
             });
             index += 1;
         }, this);
@@ -51,7 +51,6 @@ angular.module('myApp').controller('CreateCtrl', function ($scope, $q, alert, $h
             index += 1;
         }, this);
 
-        $scope.isPriorityDropDownOpen = false;
         $scope.data = {
             type: 'task',
             name: '',
@@ -70,16 +69,6 @@ angular.module('myApp').controller('CreateCtrl', function ($scope, $q, alert, $h
         $(event.target).parent().addClass("focus");
     });
 
-    $scope.onDropDownClick = function (event) {
-        var container = angular.element(document.querySelector('#priority-drop-down'));
-        if (!$scope.isPriorityDropDownOpen) {
-            container.addClass('dropdown-menu-open');
-        } else {
-            container.removeClass('dropdown-menu-open');
-        }
-        $scope.isPriorityDropDownOpen = !$scope.isPriorityDropDownOpen;
-    };
-
     $scope.onCreateTask = function (data) {
         $http.post(API_URL + 'v1/create/tasks', {
             task: {
@@ -92,7 +81,11 @@ angular.module('myApp').controller('CreateCtrl', function ($scope, $q, alert, $h
             }
         }).then(function (res) {
             console.log(JSON.stringify(res.data));
-            $state.go('main');
+            $state.go('dashboard', {
+                project: {
+                    name: $rootScope.selectedProject
+                }
+            });
         });
     }
 });

@@ -2,7 +2,7 @@
 
 angular.module('myApp').controller('TaskCtrl', function ($scope, $state, $q, $stateParams, alert, $http, API_URL) {
     if ($stateParams.task == undefined) {
-        $state.go('main');
+        $state.go('dashboard');
         return;
     }
     var priority = [

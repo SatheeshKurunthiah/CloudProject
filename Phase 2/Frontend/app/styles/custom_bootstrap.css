@@ -4424,6 +4424,7 @@ textarea.input-group-sm>.form-control, textarea.input-group-sm>.input-group-addo
     font-size: 19px;
     line-height: 21px;
     height: 40px;
+    cursor: pointer;
 }
 
 .navbar-brand:hover, .navbar-brand:focus {

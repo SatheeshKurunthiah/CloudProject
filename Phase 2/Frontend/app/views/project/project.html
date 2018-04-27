@@ -1,0 +1,29 @@
+<div ng-app="myApp" ng-controller="ProjectCtrl" class="container-fluid">
+    <div class="container">
+        <div class="formBox">
+            <form>
+                <div ng-show="hideInfo === false" class="row">
+                    <div class="col-sm-12">
+                        <h3>It seems you have not created any project</h3>
+                    </div>
+                </div>
+                <div ng-show="hideInfo === false" class="row">
+                    <div class="col-sm-12">
+                        <h3>Please create a new project to continue</h3>
+                    </div>
+                </div>
+                <div class="center-block">
+                    <div class="col-sm-8">
+                        <div class="inputBox ">
+                            <div class="inputText">Project Name</div>
+                            <input type="text" value="" ng-model="data.name" class="input">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="submit" ng-click="onCreateProject()" class="fancy-button" value="Create Project">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

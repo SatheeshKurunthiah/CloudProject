@@ -15,22 +15,19 @@ const dCategories = [
     'Resolved'
 ];
 
-// var generateKey = function (task) {
-//     return task.name.split(' ').join('_') + '_' + task.project.split(' ').join('_');
-// }
-
 exports.getTasks = function (req, res) {
-    var user = req.query.user || true;
+    var user = req.query.user || true,
+        project = req.query.project;
 
-    if (!user) {
+    if (!project) {
         return res.status(400).json({
-            message: 'User not found..!!'
+            message: 'Please send project name..!!'
         });
     }
 
     // Get data from db
     var result = [];
-    Promise.all([db.getAllData(table)]).then(function (tasks) {
+    Promise.all([db.getDataByProjectAndCategories(table, project)]).then(function (tasks) {
         var index = 0;
         categories.forEach(function (category) {
             result.push({
@@ -120,7 +117,7 @@ exports.deleteTasks = function (req, res) {
     });
 };
 
-exports.getComments = function(req, res){
+exports.getComments = function (req, res) {
     var id = req.query.taskId;
     if (!id) {
         return res.status(400).json({
@@ -128,7 +125,7 @@ exports.getComments = function(req, res){
         });
     }
 
-    Promise.all([db.getDataByKey(table, id)]).then(function(task){
+    Promise.all([db.getDataByKey(table, id)]).then(function (task) {
         res.status(200).send(JSON.stringify(task[0][0].comments));
     });
 };

@@ -4,7 +4,17 @@
             <nav>
                 <div class="container">
                     <div class="navbar-header">
-                        <a class="navbar-brand" ui-sref="main">Bug Tracker</a>
+                        <a class="navbar-brand" ng-click="onTrackerClick()">Bug Tracker</a>
+                        <button ng-show="isProjectAvailable === true" type="button" class="nav-button dropdown-toggle" ng-click="onDropDownClick()"
+                            data-toggle="dropdown">{{$root.selectedProject}}
+                                <span class="caret"></span>
+                            </button>
+
+                        <ul id="priority-drop-down" class="dropdown-menu" role="menu">
+                            <li ng-repeat="project in data.projects track by $index"><a style="cursor: pointer;" ng-click="onSelectProject(project)">{{project}}</a></li>
+                            <li class="divider"></li>
+                            <li><a ui-sref="selectProject({addProject: true})" ng-click="onDropDownClick()">Create New Project</a></li>
+                        </ul>
                     </div>
                     <ul class="nav navbar-nav pull-right">
                         <li ui-sref-active="active"><a ui-sref="createTask">Create Task</a>

@@ -34,6 +34,9 @@ router.delete('/v1/delete/tasks', tasks.deleteTasks);
 /* Returns list of projects */
 router.get('/v1/get/project', project.getProjects);
 
+/* Create new projects */
+router.post('/v1/create/project', project.createProject);
+
 // --------------User------------------
 
 /* Returns list of projects */
