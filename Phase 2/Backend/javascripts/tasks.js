@@ -16,25 +16,38 @@ const dCategories = [
 ];
 
 exports.getTasks = function (req, res) {
-    var user = req.query.user || true,
+    var user = req.query.user,
         project = req.query.project;
 
-    if (!project) {
+    if (!project || !user) {
         return res.status(400).json({
-            message: 'Please send project name..!!'
+            message: 'Please send project name and user name..!!'
         });
     }
 
     // Get data from db
     var result = [];
-    Promise.all([db.getDataByProjectAndCategories(table, project)]).then(function (tasks) {
+    Promise.all([db.getDataByProjectAndCategories(table, user, project)]).then(function (tasks) {
         var index = 0;
         categories.forEach(function (category) {
+            var items = tasks[0][index].map(x => {
+                if (x.createdBy == user || x.assignee == user)
+                    return x;
+            });
+            if (items.length > 0) {
+                var i = 0;
+                items.forEach(function (item, index, object) {
+                    if (item === undefined) {
+                        object.splice(i, 1);
+                    }
+                    i += 1;
+                });
+            }
             result.push({
                 name: category,
                 displayName: dCategories[index],
-                items: tasks[0][index]
-            })
+                items: items
+            });
             index += 1;
         }, this);
 

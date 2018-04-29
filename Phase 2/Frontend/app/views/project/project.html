@@ -1,7 +1,7 @@
 <div ng-app="myApp" ng-controller="ProjectCtrl" class="container-fluid">
     <div class="container">
         <div class="formBox">
-            <form>
+            <form ng-model="auth" ng-show="auth.isAuthenticated">
                 <div ng-show="hideInfo === false" class="row">
                     <div class="col-sm-12">
                         <h3>It seems you have not created any project</h3>
@@ -24,6 +24,9 @@
                     </div>
                 </div>
             </form>
+            <div ng-model="auth" ng-hide="auth.isAuthenticated" class="row">
+                <h3>Please Sign In to continue</h3>
+            </div>
         </div>
     </div>
 </div>

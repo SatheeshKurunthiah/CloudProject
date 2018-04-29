@@ -4,7 +4,20 @@ angular.module('myApp').config(function ($urlRouterProvider, $stateProvider, $ht
 
         $urlRouterProvider.otherwise('/');
 
+        var config = {
+            apiKey: "AIzaSyCiJAuhSLBnosJZ-lrHs6xfJUkbxGCU54k",
+            authDomain: "bugtracker-201402.firebaseapp.com",
+            databaseURL: "https://bugtracker-201402.firebaseio.com",
+            projectId: "bugtracker-201402",
+            storageBucket: "",
+            messagingSenderId: "176482627429"
+        };
+        firebase.initializeApp(config);
+
         $stateProvider
+            .state('header', {
+                controller: 'HeaderCtrl'
+            })
             .state('selectProject', {
                 url: '/',
                 templateUrl: '/views/project/project.html',

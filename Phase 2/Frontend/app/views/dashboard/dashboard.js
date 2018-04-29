@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('myApp').controller('DashboardCtrl', function ($scope, $rootScope, $state, $q, $stateParams, alert, $http, API_URL) {
+angular.module('myApp').controller('DashboardCtrl', function ($scope, $rootScope, $state, $q, $stateParams, alert, $http, API_URL, auth) {
     var getProject = $q(function (resolve, reject) {
         var selectedProject = $stateParams.project;
-        if (selectedProject === null) {
+        if (selectedProject === null || selectedProject.name == undefined) {
             $rootScope.$on('projectsLoaded', function (event, project) {
-                if (project === null) {
+                if (project === null || !auth.isLoggedIn()) {
                     $state.go('selectProject');
                     reject(null);
                 } else {
@@ -17,12 +17,17 @@ angular.module('myApp').controller('DashboardCtrl', function ($scope, $rootScope
         }
     });
 
+    if(!auth.isLoggedIn()){
+        $state.go('selectProject');
+        return;
+    }
+
     $q.all([getProject]).then(function (project) {
         if (project === null)
             return;
         $http.get(API_URL + 'v1/get/tasks', {
                 params: {
-                    user: 'dummy_user_1',
+                    user: auth.getUserName(),
                     project: project
                 }
             })

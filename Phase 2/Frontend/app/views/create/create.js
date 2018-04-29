@@ -1,10 +1,10 @@
 'use strict';
 
-angular.module('myApp').controller('CreateCtrl', function ($scope, $rootScope, $q, alert, $http, API_URL, $state) {
+angular.module('myApp').controller('CreateCtrl', function ($scope, $rootScope, $q, alert, $http, API_URL, $state, auth) {
 
     var getProject = $http.get(API_URL + 'v1/get/project', {
         params: {
-            user: 'dummy_user_1'
+            user: auth.getUserName()
         }
     });
     var getUsers = $http.get(API_URL + 'v1/get/user');
@@ -38,7 +38,7 @@ angular.module('myApp').controller('CreateCtrl', function ($scope, $rootScope, $
         res[1].data.forEach(function (pro) {
             users.push({
                 id: index,
-                name: pro
+                name: pro.name
             });
             index += 1;
         }, this);
@@ -77,6 +77,7 @@ angular.module('myApp').controller('CreateCtrl', function ($scope, $rootScope, $
                 type: data.type,
                 project: data.selectedProject.name,
                 priority: data.selectedPriority.name,
+                createdBy: auth.getUserName(),
                 assignee: data.selectedAssignee.name
             }
         }).then(function (res) {

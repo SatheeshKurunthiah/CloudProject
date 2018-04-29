@@ -34,11 +34,11 @@ exports.updateData = function (table, key, data) {
     return datastore.update(entity);
 };
 
-exports.getDataByNameAndCategory = function (table, name, category) {
-    const query = datastore
-        .createQuery(table)
-        .filter('name', '=', name)
-        .filter('category', '=', category);
+exports.getDataByValue = function (table, pair) {
+    const query = datastore.createQuery(table);
+    for (var key in pair) {
+        query.filter(key, '=', pair[key]);
+    }
     return datastore.runQuery(query);
 };
 
@@ -55,13 +55,16 @@ exports.getAllData = function (table) {
     return datastore.runQuery(query)
 };
 
-exports.getDataByProjectAndCategories = function (table, project) {
+exports.getDataByProjectAndCategories = function (table, user, project) {
     var categoriesList = []
     categories.forEach(category => {
         categoriesList.push(new Promise(function (resolve, reject) {
             const query = datastore
                 .createQuery(table)
                 .filter('category', '=', category)
+                // .filter('assignee', '=', user)
+                // .filter('assignee', '=', 'Not Assigned')
+                // .filter('createdBy', '=', user)
                 .filter('project', '=', project);
             datastore.runQuery(query).then(results => {
                 resolve(results[0]);

@@ -74,7 +74,7 @@ angular.module('myApp').controller('TaskCtrl', function ($scope, $state, $q, $st
         res[0].data.forEach(function (pro) {
             users.push({
                 id: index,
-                name: pro
+                name: pro.name
             });
             index += 1;
         }, this);

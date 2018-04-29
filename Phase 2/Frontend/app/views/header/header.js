@@ -1,18 +1,11 @@
 'use strict';
 
 angular.module('myApp')
-    .controller('HeaderCtrl', function ($scope, $state, $rootScope, $q, $http, API_URL) {
-        $scope.isAuthenticated = true;
+    .controller('HeaderCtrl', function ($scope, $state, $rootScope, $q, $http, API_URL, auth) {
+        $scope.auth = {
+            isAuthenticated: auth.isLoggedIn()
+        };
         $scope.isPriorityDropDownOpen = false;
-        var getProject = $q(function (resolve, reject) {
-            $http.get(API_URL + 'v1/get/project', {
-                params: {
-                    user: 'dummy_user_1'
-                }
-            }).then(function (res) {
-                resolve(res.data);
-            });
-        });
 
         var updateProjectsList = function (data) {
             if (data) {
@@ -30,29 +23,110 @@ angular.module('myApp')
         $rootScope.$on('projectCreated', function (event, project) {
             $http.get(API_URL + 'v1/get/project', {
                 params: {
-                    user: 'dummy_user_1'
+                    user: auth.getUserName()
                 }
             }).then(function (res) {
                 updateProjectsList(res.data);
                 $rootScope.selectedProject = project;
             });
-        })
-
-        $q.all([getProject]).then(function (res) {
-            if (res[0].length > 0) {
-                $rootScope.selectedProject = res[0][0].name;
-                $rootScope.$broadcast('projectsLoaded', res[0][0].name);
-                updateProjectsList(res[0]);
-            } else {
-                $scope.isProjectAvailable = false;
-                $rootScope.$broadcast('projectsLoaded', null);
-            }
         });
+
+        if (auth.isLoggedIn()) {
+            var getProject = $q(function (resolve, reject) {
+                $http.get(API_URL + 'v1/get/project', {
+                    params: {
+                        user: auth.getUserName()
+                    }
+                }).then(function (res) {
+                    resolve(res.data);
+                });
+            });
+            var loadProject = getProject.then(function (res) {
+                return $q(function (resolve, reject) {
+                    if (res.length > 0) {
+                        $rootScope.selectedProject = res[0].name;
+                        $rootScope.$broadcast('projectsLoaded', res[0].name);
+                        updateProjectsList(res);
+                    } else {
+                        $scope.isProjectAvailable = false;
+                        $rootScope.$broadcast('projectsLoaded', null);
+                    }
+                    resolve();
+                });
+            });
+
+            $q.all([getProject, loadProject]);
+        }
+
+        $scope.onLogin = function () {
+            var provider = new firebase.auth.GoogleAuthProvider();
+
+            firebase.auth().signInWithPopup(provider).then(function (result) {
+                var token = result.credential.accessToken;
+                auth.setUser(result.user);
+                $scope.auth = {
+                    isAuthenticated: auth.isLoggedIn()
+                };
+                var getProject = $q(function (resolve, reject) {
+                    $http.get(API_URL + 'v1/get/project', {
+                        params: {
+                            user: auth.getUserName()
+                        }
+                    }).then(function (res) {
+                        resolve(res.data);
+                    });
+                });
+                var loadProject = getProject.then(function (res) {
+                    return $q(function (resolve, reject) {
+                        if (res.length > 0) {
+                            $rootScope.selectedProject = res[0].name;
+                            $rootScope.$broadcast('projectsLoaded', res[0].name);
+                            updateProjectsList(res);
+                        } else {
+                            $scope.isProjectAvailable = false;
+                            $rootScope.$broadcast('projectsLoaded', null);
+                        }
+                        resolve();
+                    });
+                });
+                $q.all([getProject, loadProject]).then(function () {
+                    if($rootScope.selectedProject !== undefined){
+                        $state.go('dashboard', {
+                            project: {
+                                name: $rootScope.selectedProject
+                            }
+                        });
+                    }
+                });
+            }).catch(function (error) {
+                alert('error', error.message)
+            });
+        };
+
+        $scope.onLogout = function () {
+            firebase.auth().signOut().then(function () {
+                auth.setUser(null);
+                $scope.auth = {
+                    isAuthenticated: auth.isLoggedIn()
+                };
+                if ($state.current.name === 'dashboard') {
+                    $state.reload();
+                } else {
+                    $state.go('dashboard', {
+                        project: {
+                            name: $rootScope.selectedProject
+                        }
+                    });
+                }
+            }).catch(function (error) {
+                alert('error', error.message)
+            });
+        };
 
         $scope.onTrackerClick = function () {
             $http.get(API_URL + 'v1/get/project', {
                 params: {
-                    user: 'dummy_user_1'
+                    user: auth.getUserName()
                 }
             }).then(function (res) {
                 updateProjectsList(res.data);

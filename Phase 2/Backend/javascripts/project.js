@@ -3,7 +3,7 @@ const db = require('../services/db.js');
 const table = 'Project';
 
 exports.getProjects = function (req, res) {
-    var user = req.query.user || true;
+    var user = req.query.user;
 
     if (!user) {
         return res.status(400).json({
@@ -12,7 +12,6 @@ exports.getProjects = function (req, res) {
     }
 
     // Get data from db
-    
     Promise.all([db.getAllData(table)]).then(function (projects) {
         var result = projects[0][0];
 

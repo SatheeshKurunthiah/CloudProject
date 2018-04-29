@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp').controller('DeleteCtrl', function ($scope, $rootScope, $q, alert, $http, API_URL, $state) {
+angular.module('myApp').controller('DeleteCtrl', function ($scope, $rootScope, $q, alert, $http, API_URL, $state, auth) {
     var processTasks = function (data) {
             var getItemsByName = function (name, arr) {
                 var result = arr.find(item => item.name == name);
@@ -26,7 +26,7 @@ angular.module('myApp').controller('DeleteCtrl', function ($scope, $rootScope, $
         loadTask = waitForProjectLoading.then(function () {
             return $http.get(API_URL + 'v1/get/tasks', {
                 params: {
-                    user: 'dummy_user_1',
+                    user: auth.getUserName(),
                     project: $rootScope.selectedProject
                 }
             });
