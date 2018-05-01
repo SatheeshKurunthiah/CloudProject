@@ -39,7 +39,7 @@ router.post('/v1/create/project', project.createProject);
 
 // --------------User------------------
 
-/* Returns list of projects */
+/* Returns list of user */
 router.get('/v1/get/user', user.getUser);
 
 /* Add user to DB */
