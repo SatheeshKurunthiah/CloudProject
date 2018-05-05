@@ -6,19 +6,47 @@ angular.module('myApp')
             isAuthenticated: auth.isLoggedIn()
         };
         $scope.isPriorityDropDownOpen = false;
+        var waitForLogin = $q(function (resolve, reject) {
+                if (auth.isLoggedIn())
+                    resolve();
+                else
+                    reject();
+            }),
+            updateProjectsList = function (data) {
+                if (data) {
+                    var projects = [];
+                    data.forEach(function (pro) {
+                        projects.push(pro.name);
+                    }, this);
+                    $scope.data = {
+                        projects: projects
+                    };
+                    $scope.isProjectAvailable = true;
+                }
+            },
+            getProject = waitForLogin.then(function () {
+                return $q(function (resolve, reject) {
+                    $http.get(API_URL + 'v1/get/project', {
+                        params: {
+                            user: auth.getUserName()
+                        }
+                    }).then(function (res) {
+                        resolve(res.data);
+                    });
+                });
+            }),
+            loadProject = getProject.then(function (res) {
+                if (res.length > 0) {
+                    $rootScope.selectedProject = res[0].name;
+                    $rootScope.$broadcast('projectsLoaded', res[0].name);
+                    updateProjectsList(res);
+                } else {
+                    $scope.isProjectAvailable = false;
+                    $rootScope.$broadcast('projectsLoaded', null);
+                }
+            });
 
-        var updateProjectsList = function (data) {
-            if (data) {
-                var projects = [];
-                data.forEach(function (pro) {
-                    projects.push(pro.name);
-                }, this);
-                $scope.data = {
-                    projects: projects
-                };
-                $scope.isProjectAvailable = true;
-            }
-        };
+        $q.all([waitForLogin, getProject, loadProject]);
 
         $rootScope.$on('projectCreated', function (event, project) {
             $http.get(API_URL + 'v1/get/project', {
@@ -31,33 +59,6 @@ angular.module('myApp')
             });
         });
 
-        if (auth.isLoggedIn()) {
-            var getProject = $q(function (resolve, reject) {
-                $http.get(API_URL + 'v1/get/project', {
-                    params: {
-                        user: auth.getUserName()
-                    }
-                }).then(function (res) {
-                    resolve(res.data);
-                });
-            });
-            var loadProject = getProject.then(function (res) {
-                return $q(function (resolve, reject) {
-                    if (res.length > 0) {
-                        $rootScope.selectedProject = res[0].name;
-                        $rootScope.$broadcast('projectsLoaded', res[0].name);
-                        updateProjectsList(res);
-                    } else {
-                        $scope.isProjectAvailable = false;
-                        $rootScope.$broadcast('projectsLoaded', null);
-                    }
-                    resolve();
-                });
-            });
-
-            $q.all([getProject, loadProject]);
-        }
-
         $scope.onLogin = function () {
             var provider = new firebase.auth.GoogleAuthProvider();
 
@@ -67,30 +68,8 @@ angular.module('myApp')
                 $scope.auth = {
                     isAuthenticated: auth.isLoggedIn()
                 };
-                var getProject = $q(function (resolve, reject) {
-                    $http.get(API_URL + 'v1/get/project', {
-                        params: {
-                            user: auth.getUserName()
-                        }
-                    }).then(function (res) {
-                        resolve(res.data);
-                    });
-                });
-                var loadProject = getProject.then(function (res) {
-                    return $q(function (resolve, reject) {
-                        if (res.length > 0) {
-                            $rootScope.selectedProject = res[0].name;
-                            $rootScope.$broadcast('projectsLoaded', res[0].name);
-                            updateProjectsList(res);
-                        } else {
-                            $scope.isProjectAvailable = false;
-                            $rootScope.$broadcast('projectsLoaded', null);
-                        }
-                        resolve();
-                    });
-                });
-                $q.all([getProject, loadProject]).then(function () {
-                    if($rootScope.selectedProject !== undefined){
+                $q.all([waitForLogin, getProject, loadProject]).then(function () {
+                    if ($rootScope.selectedProject !== undefined) {
                         $state.go('dashboard', {
                             project: {
                                 name: $rootScope.selectedProject
